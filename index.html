@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Descend-Scallop</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .slideshow-container {
+      position: relative;
+      max-width: 90%;
+      max-height: 90%;
+    }
+
+    .slideshow-container img {
+      width: 100%;
+      height: auto;
+      display: none;
+    }
+
+    .slideshow-container img.active {
+      display: block;
+    }
+
+    .numbertext {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: #fff;
+      font-size: 18px;
+      background: rgba(0,0,0,0.5);
+      padding: 6px 10px;
+      border-radius: 5px;
+    }
+
+    .prev, .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 12px;
+      color: white;
+      font-weight: bold;
+      font-size: 24px;
+      user-select: none;
+      background: rgba(0,0,0,0.5);
+      border-radius: 50%;
+    }
+
+    .prev { left: -50px; }
+    .next { right: -50px; }
+
+    .prev:hover, .next:hover {
+      background: rgba(0,0,0,0.8);
+    }
+  </style>
+</head>
+<body>
+
+<div class="slideshow-container">
+  <div class="numbertext"></div>
+  <span class="prev">&#10094;</span>
+  <span class="next">&#10095;</span>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const count = parseInt(params.get("count")) || 0;
+
+const container = document.querySelector(".slideshow-container");
+
+// dynamically create <img> tags
+for (let i = 0; i < count; i++) {
+  const img = document.createElement("img");
+  img.src = `Snaps//check_${i}.jpeg`;
+  img.alt = `check_${i}`;
+  container.appendChild(img);
+}
+
+let slideIndex = 0;
+const slides = container.querySelectorAll("img");
+const numberText = container.querySelector(".numbertext");
+const totalSlides = slides.length;
+
+function showSlide(index) {
+  slides.forEach(slide => slide.classList.remove("active"));
+  slides[index].classList.add("active");
+  numberText.textContent = `${index + 1} / ${totalSlides}`;
+}
+
+document.querySelector(".next").addEventListener("click", () => {
+  slideIndex = (slideIndex + 1) % totalSlides;
+  showSlide(slideIndex);
+});
+
+document.querySelector(".prev").addEventListener("click", () => {
+  slideIndex = (slideIndex - 1 + totalSlides) % totalSlides;
+  showSlide(slideIndex);
+});
+
+// show first slide if any
+if (totalSlides > 0) showSlide(slideIndex);
+</script>
+
+</body>
+</html>
